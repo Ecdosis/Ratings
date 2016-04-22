@@ -23,4 +23,5 @@ package ratings.constants;
  */
 public class Service {
     public static final String RATINGS = "ratings";
+    public static final String DELETE = "delete";
 }

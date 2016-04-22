@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ ! -d ratins ]; then
+if [ ! -d ratings ]; then
   mkdir ratings
   if [ $? -ne 0 ] ; then
     echo "couldn't create ratings directory"

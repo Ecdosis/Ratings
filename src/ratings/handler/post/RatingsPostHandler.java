@@ -18,11 +18,13 @@
 
 package ratings.handler.post;
 
+import calliope.core.Utils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ratings.exception.RatingsException;
 import ratings.handler.RatingsHandler;
 import ratings.constants.Params;
+import ratings.constants.Service;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.Map;
@@ -67,67 +69,78 @@ public class RatingsPostHandler extends RatingsHandler
     {
         try
         {
-            Map<String,String[]> params = request.getParameterMap();
-            Set<String> keys = params.keySet();
-            Iterator<String> iter = keys.iterator();
-            while ( iter.hasNext() )
+            String service = Utils.first(urn);
+            // DELETE not supported by all browser, use POST
+            if ( service.equals(Service.DELETE) )
             {
-                String key = iter.next();
-                String[] values = params.get( key );
-                if ( values.length > 0 )
-                {
-                    if ( key.equals(Params.SCORE) )
-                        score = Integer.parseInt(values[0]);
-                    else if ( key.equals(Params.REVIEW) )
-                        review = values[0];
-                    else if ( key.equals(Params.DOCID) )
-                        docid = values[0];
-                    else if ( key.equals(Params.USER) )
-                        user = values[0];
-                    else if ( key.equals(Params.FORMAT) )
-                        format = checkFormat(values[0]);
-                }
+                urn = Utils.pop(urn);
+                System.out.println("calling delete handler");
+                new RatingsDeleteHandler().handle(request,response, Utils.pop(urn));
             }
-            if ( docid != null && user != null && score != -1 )
+            else
             {
-                Connection conn = Connector.getConnection();
-                String jStr = (String)conn.getFromDb(Database.RATINGS,docid);
-                JSONObject jObj;
-                if ( jStr != null )
-                    jObj = (JSONObject)JSONValue.parse(jStr);
-                else
+                Map<String,String[]> params = request.getParameterMap();
+                Set<String> keys = params.keySet();
+                Iterator<String> iter = keys.iterator();
+                while ( iter.hasNext() )
                 {
-                    jObj = new JSONObject();
-                    jObj.put( Params.RATINGS, new JSONArray() );
-                }
-                JSONArray jArr = (JSONArray)jObj.get(Params.RATINGS);
-                boolean found = false;
-                for ( int i=0;i<jArr.size();i++ )
-                {
-                    JSONObject r = (JSONObject) jArr.get(i);
-                    String userName = (String)r.get(JSONKeys.USER);
-                    if ( userName != null && userName.equals(user) )
+                    String key = iter.next();
+                    String[] values = params.get( key );
+                    if ( values.length > 0 )
                     {
-                        // update existing review and score
-                        r.put(Params.SCORE, score);
-                        if ( review != null )
-                            r.put(Params.REVIEW, review);
-                        found = true;
-                        break;
+                        if ( key.equals(Params.SCORE) )
+                            score = Integer.parseInt(values[0]);
+                        else if ( key.equals(Params.REVIEW) )
+                            review = values[0];
+                        else if ( key.equals(Params.DOCID) )
+                            docid = values[0];
+                        else if ( key.equals(Params.USER) )
+                            user = values[0];
+                        else if ( key.equals(Params.FORMAT) )
+                            format = checkFormat(values[0]);
                     }
                 }
-                if ( !found )
+                if ( docid != null && user != null && score != -1 )
                 {
-                    // enter a new score for that user
-                    JSONObject rating = new JSONObject();
-                    rating.put(Params.SCORE, score);
-                    rating.put(JSONKeys.USER, user);
-                    if ( review != null )
-                        rating.put(Params.REVIEW, review);
-                    rating.put(JSONKeys.FORMAT, format);
-                    jArr.add( rating );
+                    Connection conn = Connector.getConnection();
+                    String jStr = (String)conn.getFromDb(Database.RATINGS,docid);
+                    JSONObject jObj;
+                    if ( jStr != null )
+                        jObj = (JSONObject)JSONValue.parse(jStr);
+                    else
+                    {
+                        jObj = new JSONObject();
+                        jObj.put( Params.RATINGS, new JSONArray() );
+                    }
+                    JSONArray jArr = (JSONArray)jObj.get(Params.RATINGS);
+                    boolean found = false;
+                    for ( int i=0;i<jArr.size();i++ )
+                    {
+                        JSONObject r = (JSONObject) jArr.get(i);
+                        String userName = (String)r.get(JSONKeys.USER);
+                        if ( userName != null && userName.equals(user) )
+                        {
+                            // update existing review and score
+                            r.put(Params.SCORE, score);
+                            if ( review != null )
+                                r.put(Params.REVIEW, review);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if ( !found )
+                    {
+                        // enter a new score for that user
+                        JSONObject rating = new JSONObject();
+                        rating.put(Params.SCORE, score);
+                        rating.put(JSONKeys.USER, user);
+                        if ( review != null )
+                            rating.put(Params.REVIEW, review);
+                        rating.put(JSONKeys.FORMAT, format);
+                        jArr.add( rating );
+                    }
+                    conn.putToDb(Database.RATINGS, docid, jObj.toJSONString());
                 }
-                conn.putToDb(Database.RATINGS, docid, jObj.toJSONString());
             }
         }
         catch ( Exception e )

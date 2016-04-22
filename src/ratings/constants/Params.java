@@ -28,4 +28,5 @@ public class Params {
     public static final String USER = "user";
     public static final String RATINGS = "ratings";
     public static final String FORMAT = "format";
+    public static final String USERDATA = "userdata";
 }

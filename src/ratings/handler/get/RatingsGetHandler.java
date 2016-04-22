@@ -21,7 +21,6 @@ package ratings.handler.get;
 import calliope.core.exception.DbException;
 import calliope.core.database.Connector;
 import ratings.exception.*;
-import ratings.constants.*;
 import ratings.handler.RatingsHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,16 +35,16 @@ import org.json.simple.*;
  */
 public class RatingsGetHandler extends RatingsHandler
 {
-    int calcScore( JSONArray ratings )
+    double calcScore( JSONArray ratings )
     {
-        int total = 0;
+        double total = 0;
         for ( int i=0;i<ratings.size();i++ )
         {
             JSONObject jObj = (JSONObject)ratings.get(i);
             total += ((Number)jObj.get(Params.SCORE)).intValue();
         }
-        float average = (float)total/(float)ratings.size();
-        return Math.round( average);
+        double average = total/ratings.size();
+        return average;
     }
     public void handle(HttpServletRequest request,
             HttpServletResponse response, String urn) throws RatingsException 
@@ -61,14 +60,15 @@ public class RatingsGetHandler extends RatingsHandler
                 {
                     JSONObject jObj = (JSONObject)JSONValue.parse( jStr );
                     JSONArray ratings = (JSONArray)jObj.get(Params.RATINGS);
-                    int avScore = calcScore( ratings );
+                    double avScore = calcScore( ratings );
                     jObj.put( Params.SCORE, avScore );
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().println(jObj.toJSONString());
                 }
                 else
-                    throw new DbException(docid+" not found");
+                    throw new DbException("{\"score\":0,\"ratings\":[],\"message\":\""
+                        +docid+" not found"+"\"}");
             }
             else
                 throw new DbException("You must specify a docid");
@@ -78,6 +78,7 @@ public class RatingsGetHandler extends RatingsHandler
             try
             {
                 response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
                 response.getWriter().write(e.getMessage());
             }
             catch ( Exception ex )
