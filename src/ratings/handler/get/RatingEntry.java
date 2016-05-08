@@ -24,9 +24,11 @@ public class RatingEntry
 {
     float rating;
     String docid;
-    RatingEntry( String docid, float rating )
+    String title;
+    RatingEntry( String docid, float rating, String title )
     {
         this.rating = rating;
         this.docid = docid;
+        this.title = title;
     }
 }

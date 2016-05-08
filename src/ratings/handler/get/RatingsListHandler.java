@@ -112,11 +112,14 @@ public class RatingsListHandler extends RatingsGetHandler
                 for ( int i=0;i<docids.length;i++ )
                 {
                     if ( map.containsKey(docids[i]) )
-                        list.add( new RatingEntry(docids[i],map.get(docids[i])));
+                        list.add( new RatingEntry(docids[i],
+                            map.get(docids[i]),getTitleForDocid(docids[i])));
                     else
-                        list.add( new RatingEntry(docids[i],0.0f));
+                        list.add( new RatingEntry(docids[i],0.0f,
+                            getTitleForDocid(docids[i])));
                 }
-                // 4. sort the rated works by decreasing value
+                // 4. sort the rated works by decreasing value, 
+                // then alphabetically increasing by title
                 RatingEntry[] array = new RatingEntry[list.size()];
                 list.toArray(array);
                 Arrays.sort( array, new RatingComparator() );
@@ -126,7 +129,8 @@ public class RatingsListHandler extends RatingsGetHandler
                 {
                     JSONObject entry = new JSONObject();
                     entry.put("score", array[i].rating );
-                    entry.put("title", getTitleForDocid(array[i].docid) );
+                    entry.put("docid", array[i].docid );
+                    entry.put("title", array[i].title );
                     table.add( entry );
                 }
                 response.setCharacterEncoding("UTF-8");
