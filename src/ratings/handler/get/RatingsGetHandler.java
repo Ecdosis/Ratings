@@ -18,6 +18,7 @@
 
 package ratings.handler.get;
 
+import calliope.core.Utils;
 import calliope.core.exception.DbException;
 import calliope.core.database.Connector;
 import ratings.exception.*;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import calliope.core.database.*;
 import calliope.core.constants.Database;
 import ratings.constants.Params;
+import ratings.constants.Service;
 import org.json.simple.*;
 
 /**
@@ -51,27 +53,35 @@ public class RatingsGetHandler extends RatingsHandler
     {
         try 
         {
-            docid = request.getParameter(Params.DOCID);
-            Connection conn = Connector.getConnection();
-            if ( docid != null )
+            String first = Utils.first(urn);
+            urn = Utils.pop(urn);
+            if ( first.equals(Service.LIST) )
+                new RatingsListHandler().handle(request,response,urn);
+            else
             {
-                String jStr = conn.getFromDb( Database.RATINGS, docid );
-                if ( jStr != null )
+                docid = request.getParameter(Params.DOCID);
+                Connection conn = Connector.getConnection();
+                if ( docid != null )
                 {
-                    JSONObject jObj = (JSONObject)JSONValue.parse( jStr );
-                    JSONArray ratings = (JSONArray)jObj.get(Params.RATINGS);
-                    double avScore = calcScore( ratings );
-                    jObj.put( Params.SCORE, avScore );
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    response.getWriter().println(jObj.toJSONString());
+                    String jStr = conn.getFromDb( Database.RATINGS, docid );
+                    if ( jStr != null )
+                    {
+                        JSONObject jObj = (JSONObject)JSONValue.parse( jStr );
+                        JSONArray ratings = (JSONArray)jObj.get(Params.RATINGS);
+                        double avScore = calcScore( ratings );
+                        jObj.put( Params.SCORE, avScore );
+                        response.setContentType("application/json");
+                        response.setCharacterEncoding("UTF-8");
+                        response.getWriter().println(jObj.toJSONString());
+                    }
+                    else
+                        throw new DbException(
+                            "{\"score\":0,\"ratings\":[],\"message\":\""
+                            +docid+" not found"+"\"}");
                 }
                 else
-                    throw new DbException("{\"score\":0,\"ratings\":[],\"message\":\""
-                        +docid+" not found"+"\"}");
+                    throw new DbException("You must specify a docid");
             }
-            else
-                throw new DbException("You must specify a docid");
         } 
         catch (Exception e) 
         {

@@ -5,13 +5,15 @@
         <group>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/exception/RatingsException.java</file>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/RatingsWebApp.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/get/RatingsGetHandler.java</file>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/constants/Service.java</file>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/RatingsHandler.java</file>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/JettyServerThread.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/constants/Params.java</file>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/post/RatingsPostHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/post/RatingsDeleteHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/get/RatingsGetHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/constants/Params.java</file>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/RatingsDeleteHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/Base64.java</file>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/JettyServer.java</file>
             <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/RatingsPutHandler.java</file>
         </group>

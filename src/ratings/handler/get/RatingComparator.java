@@ -15,14 +15,22 @@
  *  along with Ratings.  If not, see <http://www.gnu.org/licenses/>.
  *  (c) copyright Desmond Schmidt 2016
  */
-package ratings.constants;
+package ratings.handler.get;
+
+import java.util.Comparator;
 
 /**
- * Path components for Ratings service
+ * Compare two ratings for sorting
  * @author desmond
  */
-public class Service {
-    public static final String RATINGS = "ratings";
-    public static final String DELETE = "delete";
-    public static final String LIST = "list";
+public class RatingComparator implements Comparator<RatingEntry> 
+{
+    public int compare( RatingEntry r1, RatingEntry r2 )
+    {
+        return (r1.rating > r2.rating)?-1:(r1.rating==r2.rating)?0:1;
+    }
+    public boolean equals( Object obj )
+    {
+        return this.equals(obj);
+    }
 }

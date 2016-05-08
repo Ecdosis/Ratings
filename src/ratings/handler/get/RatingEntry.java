@@ -15,14 +15,18 @@
  *  along with Ratings.  If not, see <http://www.gnu.org/licenses/>.
  *  (c) copyright Desmond Schmidt 2016
  */
-package ratings.constants;
-
+package ratings.handler.get;
 /**
- * Path components for Ratings service
+ * Store a docid and its rating
  * @author desmond
  */
-public class Service {
-    public static final String RATINGS = "ratings";
-    public static final String DELETE = "delete";
-    public static final String LIST = "list";
+public class RatingEntry 
+{
+    float rating;
+    String docid;
+    RatingEntry( String docid, float rating )
+    {
+        this.rating = rating;
+        this.docid = docid;
+    }
 }
