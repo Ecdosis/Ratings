@@ -1,21 +1,21 @@
 /*
- * This file is part of Ratings.
+ * This file is part of Notes.
  *
- *  Ratings is free software: you can redistribute it and/or modify
+ *  Notes is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
- *  Ratings is distributed in the hope that it will be useful,
+ *  Notes is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with Ratings.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with Notes.  If not, see <http://www.gnu.org/licenses/>.
  *  (c) copyright Desmond Schmidt 2016
  */
-package ratings.handler.get;
+package notes.handler.get.ratings;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -44,25 +44,30 @@ public class RatingComparator implements Comparator<RatingEntry>
      */
     String truncate( String title )
     {
-        String[] parts = title.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for ( int i=0;i<parts.length;i++ )
+        if ( title != null )
         {
-            if ( sb.length()==0 )
+            String[] parts = title.split(" ");
+            StringBuilder sb = new StringBuilder();
+            for ( int i=0;i<parts.length;i++ )
             {
-                while ( parts[i].length()>0 
-                    && !Character.isLetter(parts[i].charAt(0)) )
-                    parts[i] = parts[i].substring(1);
-                if ( !skips.contains(parts[i]) )
+                if ( sb.length()==0 )
+                {
+                    while ( parts[i].length()>0 
+                        && !Character.isLetter(parts[i].charAt(0)) )
+                        parts[i] = parts[i].substring(1);
+                    if ( !skips.contains(parts[i]) )
+                        sb.append(parts[i]);
+                }
+                else
+                {
+                    sb.append(" ");
                     sb.append(parts[i]);
+                }
             }
-            else
-            {
-                sb.append(" ");
-                sb.append(parts[i]);
-            }
+            return sb.toString();
         }
-        return sb.toString();
+        else
+            return "";
     }
     public int compare( RatingEntry r1, RatingEntry r2 )
     {

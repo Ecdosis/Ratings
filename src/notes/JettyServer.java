@@ -1,27 +1,28 @@
 /*
- * This file is part of Ratings.
+ * This file is part of Notes.
  *
- *  Ratings is free software: you can redistribute it and/or modify
+ *  Notes is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
- *  Ratings is distributed in the hope that it will be useful,
+ *  Notes is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with Ratings.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with Notes.  If not, see <http://www.gnu.org/licenses/>.
  *  (c) copyright Desmond Schmidt 2016
  */
 
-package ratings;
+package notes;
 
-import ratings.handler.get.RatingsGetHandler;
-import ratings.handler.post.RatingsPostHandler;
-import ratings.handler.*;
-import ratings.exception.*;
+import notes.handler.NotesPutHandler;
+import notes.handler.post.ratings.RatingsDeleteHandler;
+import notes.exception.NotesException;
+import notes.handler.get.NotesGetHandler;
+import notes.handler.NotesPostHandler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ import java.io.IOException;
 import calliope.core.database.Repository;
 import calliope.core.database.Connector;
 import calliope.core.Utils;
-import ratings.constants.Service;
+import notes.constants.Service;
 
 /**
  * This launches the Jetty service
@@ -56,9 +57,9 @@ public class JettyServer extends AbstractHandler
      */
     @Override
     public void handle(String target,
-                       Request baseRequest,
-                       HttpServletRequest request,
-                       HttpServletResponse response) 
+        Request baseRequest,
+        HttpServletRequest request,
+        HttpServletResponse response) 
         throws IOException, ServletException
     {
         response.setStatus(HttpServletResponse.SC_OK);
@@ -67,24 +68,24 @@ public class JettyServer extends AbstractHandler
         try
         {
             String service = Utils.first(target);
-            if ( service.equals(Service.RATINGS) )
+            if ( service.equals(Service.NOTES) )
             {
                 String urn = Utils.pop(target);
                 if ( method.equals("GET") )
-                    new RatingsGetHandler().handle( request, response, urn );
+                    new NotesGetHandler().handle( request, response, urn );
                 else if ( method.equals("PUT") )
-                    new RatingsPutHandler().handle( request, response, urn );
+                    new NotesPutHandler().handle( request, response, urn );
                 else if ( method.equals("DELETE") )
                     new RatingsDeleteHandler().handle( request, response, urn );
                 else if ( method.equals("POST") )
-                    new RatingsPostHandler().handle( request, response, urn );
+                    new NotesPostHandler().handle(request,response,urn);
                 else
-                    throw new RatingsException("Unknown http method "+method);
+                    throw new NotesException("Unknown http method "+method);
             }
             else
-                throw new RatingsException("Unknown service "+service);
+                throw new NotesException("Unknown service "+service);
         }
-        catch ( RatingsException te )
+        catch ( NotesException te )
         {
             StringBuilder sb = new StringBuilder();
             sb.append("<p>");

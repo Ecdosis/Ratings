@@ -1,30 +1,30 @@
 /*
- * This file is part of Ratings.
+ * This file is part of Notes.
  *
- *  Ratings is free software: you can redistribute it and/or modify
+ *  Notes is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
- *  Ratings is distributed in the hope that it will be useful,
+ *  Notes is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with Ratings.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with Notes.  If not, see <http://www.gnu.org/licenses/>.
  *  (c) copyright Desmond Schmidt 2016
  */
 
-package ratings.handler.post;
+package notes.handler.post.ratings;
 
 import calliope.core.Utils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ratings.exception.RatingsException;
-import ratings.handler.RatingsHandler;
-import ratings.constants.Params;
-import ratings.constants.Service;
+import notes.exception.NotesException;
+import notes.handler.NotesHandler;
+import notes.constants.Params;
+import notes.constants.Service;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.Map;
@@ -42,7 +42,7 @@ import calliope.core.constants.Formats;
  * Handle posting or saving of project data
  * @author desmond
  */
-public class RatingsPostHandler extends RatingsHandler
+public class RatingsPostHandler extends NotesHandler
 {
     int score;
     String review;
@@ -65,7 +65,7 @@ public class RatingsPostHandler extends RatingsHandler
             return Formats.MIME_MARKDOWN;
     }
     public void handle( HttpServletRequest request,
-        HttpServletResponse response, String urn ) throws RatingsException
+        HttpServletResponse response, String urn ) throws NotesException
     {
         try
         {
@@ -145,7 +145,7 @@ public class RatingsPostHandler extends RatingsHandler
         }
         catch ( Exception e )
         {
-            throw new RatingsException(e);
+            throw new NotesException(e);
         }
     }
 }

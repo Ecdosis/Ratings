@@ -1,32 +1,35 @@
 /*
- * This file is part of Ratings.
+ * This file is part of Notes.
  *
- *  Ratings is free software: you can redistribute it and/or modify
+ *  Notes is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
- *  Ratings is distributed in the hope that it will be useful,
+ *  Notes is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with Ratings.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with Notes.  If not, see <http://www.gnu.org/licenses/>.
  *  (c) copyright Desmond Schmidt 2016
  */
-package ratings;
+package notes;
 
+
+import notes.handler.NotesHandler;
+import notes.handler.get.NotesGetHandler;
+import notes.handler.post.ratings.RatingsDeleteHandler;
+import notes.handler.NotesPutHandler;
+import notes.exception.NotesException;
 import calliope.core.Utils;
 import calliope.core.database.Connector;
 import calliope.core.database.Repository;
 import calliope.core.exception.CalliopeException;
 import calliope.core.exception.CalliopeExceptionMessage;
 import java.util.Enumeration;
-import ratings.handler.get.*;
-import ratings.handler.*;
-import ratings.exception.*;
-import ratings.handler.post.RatingsPostHandler;
+import notes.handler.NotesPostHandler;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +39,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author desmond
  */
-public class RatingsWebApp extends HttpServlet
+public class NotesWebApp extends HttpServlet
 {
     static String host = "localhost";
     static String user ="admin";
@@ -89,6 +92,7 @@ public class RatingsWebApp extends HttpServlet
         {
             String method = req.getMethod();
             String target = req.getRequestURI();
+            System.out.println("target="+target);
             if ( !Connector.isOpen() )
             {
                 Enumeration params = 
@@ -116,20 +120,21 @@ public class RatingsWebApp extends HttpServlet
                 Connector.init( repository, user, 
                     password, host, "calliope", dbPort, wsPort, webRoot );
             }
-            target = Utils.pop( target );
-            RatingsHandler handler;
+            String urn = Utils.pop( target );
+            NotesHandler handler = null;
             if ( method.equals("GET") )
-                handler = new RatingsGetHandler();
+                handler = new NotesGetHandler();
             else if ( method.equals("PUT") )
-                handler = new RatingsPutHandler();
+                handler = new NotesPutHandler();
             else if ( method.equals("DELETE") )
                 handler = new RatingsDeleteHandler();
             else if ( method.equals("POST") )
-                handler = new RatingsPostHandler();
+                handler = new NotesPostHandler();
             else
-                throw new RatingsException("Unknown http method "+method);
+                throw new NotesException("Unknown http method "+method);
             resp.setStatus(HttpServletResponse.SC_OK);
-            handler.handle( req, resp, target );
+            if ( handler != null )
+                handler.handle( req, resp, urn );
         }
         catch ( Exception e )
         {

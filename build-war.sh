@@ -1,27 +1,27 @@
 #!/bin/bash
-if [ ! -d ratings ]; then
-  mkdir ratings
+if [ ! -d notes ]; then
+  mkdir notes
   if [ $? -ne 0 ] ; then
-    echo "couldn't create ratings directory"
+    echo "couldn't create notes directory"
     exit
   fi
 fi
-if [ ! -d ratings/WEB-INF ]; then
-  mkdir ratings/WEB-INF
+if [ ! -d notes/WEB-INF ]; then
+  mkdir notes/WEB-INF
   if [ $? -ne 0 ] ; then
-    echo "couldn't create ratings/WEB-INF directory"
+    echo "couldn't create notes/WEB-INF directory"
     exit
   fi
 fi
-if [ ! -d ratings/WEB-INF/lib ]; then
-  mkdir ratings/WEB-INF/lib
+if [ ! -d notes/WEB-INF/lib ]; then
+  mkdir notes/WEB-INF/lib
   if [ $? -ne 0 ] ; then
-    echo "couldn't create ratings/WEB-INF/lib directory"
+    echo "couldn't create notes/WEB-INF/lib directory"
     exit
   fi
 fi
-rm -f ratings/WEB-INF/lib/*.jar
-cp dist/Ratings.jar ratings/WEB-INF/lib/
-cp web.xml ratings/WEB-INF/
-jar cf ratings.war -C ratings WEB-INF 
+rm -f notes/WEB-INF/lib/*.jar
+cp dist/Notes.jar notes/WEB-INF/lib/
+cp web.xml notes/WEB-INF/
+jar cf notes.war -C notes WEB-INF 
 echo "NB: you MUST copy the contents of tomcat-bin to \$tomcat_home/bin"

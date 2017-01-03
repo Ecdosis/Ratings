@@ -1,41 +1,41 @@
 /*
- * This file is part of Ratings.
+ * This file is part of Notes.
  *
- *  Ratings is free software: you can redistribute it and/or modify
+ *  Notes is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
- *  Ratings is distributed in the hope that it will be useful,
+ *  Notes is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with Ratings.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with Notes.  If not, see <http://www.gnu.org/licenses/>.
  *  (c) copyright Desmond Schmidt 2016
  */
 
-package ratings.handler.get;
+package notes.handler.get.ratings;
 
+import notes.exception.NotesException;
 import calliope.core.Utils;
 import calliope.core.exception.DbException;
 import calliope.core.database.Connector;
-import ratings.exception.*;
-import ratings.handler.RatingsHandler;
+import notes.handler.NotesHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import calliope.core.database.*;
 import calliope.core.constants.Database;
-import ratings.constants.Params;
-import ratings.constants.Service;
+import notes.constants.Params;
+import notes.constants.Service;
 import org.json.simple.*;
 
 /**
  * Get a project document from the database
  * @author desmond
  */
-public class RatingsGetHandler extends RatingsHandler
+public class RatingsGetHandler extends NotesHandler
 {
     double calcScore( JSONArray ratings )
     {
@@ -49,7 +49,7 @@ public class RatingsGetHandler extends RatingsHandler
         return average;
     }
     public void handle(HttpServletRequest request,
-            HttpServletResponse response, String urn) throws RatingsException 
+            HttpServletResponse response, String urn) throws NotesException 
     {
         try 
         {
@@ -93,7 +93,7 @@ public class RatingsGetHandler extends RatingsHandler
             }
             catch ( Exception ex )
             {
-                throw new RatingsException(ex);
+                throw new NotesException(ex);
             }
         }
     }   

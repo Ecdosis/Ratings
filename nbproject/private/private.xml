@@ -3,19 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/exception/RatingsException.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/RatingsWebApp.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/constants/Service.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/RatingsHandler.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/JettyServerThread.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/post/RatingsPostHandler.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/post/RatingsDeleteHandler.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/get/RatingsGetHandler.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/constants/Params.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/RatingsDeleteHandler.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/Base64.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/JettyServer.java</file>
-            <file>file:/home/desmond/NetBeansProjects/Ratings/src/ratings/handler/RatingsPutHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/JettyServerThread.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/get/ratings/RatingComparator.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/NotesHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/get/ratings/RatingEntry.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/get/NotesGetHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/get/ratings/RatingsListHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/NotesPostHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/post/ratings/RatingsDeleteHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/NotesPutHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/get/ratings/RatingsGetHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/NotesWebApp.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/post/annotations/AnnotationsPostHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/JettyServer.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/constants/Service.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/nbproject/build-impl.xml</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/constants/Params.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/post/ratings/RatingsPostHandler.java</file>
+            <file>file:/home/desmond/NetBeansProjects/Notes/src/notes/handler/get/annotations/AnnotationsGetHandler.java</file>
         </group>
     </open-files>
 </project-private>
